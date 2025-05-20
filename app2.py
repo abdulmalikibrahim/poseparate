@@ -45,6 +45,14 @@ def extract_supplier_name(page):
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
+        for filename_pdfs in os.listdir(output_folder):
+            file_path = os.path.join(output_folder, filename_pdfs)
+            try:
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
+            except Exception as e:
+                print(f"Gagal menghapus {file_path}: {e}")
+
         files = request.files.getlist("file")
         tipe = request.form.get("tipe")
         if(tipe == "Maintenance"):
