@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+<head>
+    <title>APPROVAL ONLINE PO</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='image/logo_icon_daihatsu.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.css" integrity="sha512-fjO3Vy3QodX9c6G9AUmr6WuIaEPdGRxBjD7gjatG5gGylzYyrEq3U0q+smkG6CwIY0L8XALRFHh4KPHig0Q1ug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        #block-setting-approval {
+            position: relative; /* pastikan elemen bisa digeser */
+            display: none; /* default: hidden */
+            width: 100%; /* atur sesuai kebutuhan */
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s forwards;
+        }
+
+        .slide-out {
+            animation: slideOut 0.5s forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0%);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0%);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-info" style="background-image: url({{ url_for('static', filename='image/background.jpg') }}); background-size: auto; background-repeat: no-repeat; background-blend-mode: lighten;">
+    <div class="text-center mt-5">
+        <div class="row w-100">
+            <div class="col-lg-4 text-start ps-4">
+                <img src="{{ url_for('static', filename='image/logo_daihatsu.png') }}" style="position: absolute; top: -65px; left: -15px; width: 20%;">
+            </div>
+            <div class="col-lg-4">
+                <h1 class="mb-4 mt-4" style="font-weight: 900;">APPROVAL ONLINE PO</h1>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="text-start mb-2">
+                        <p class="mb-1">Tipe</p>
+                        <select name="tipe" id="tipe" class="form-control" onchange="check_tipe()">
+                            <option value="" selected>Pilih Tipe</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Consumable">Consumable</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <input class="form-control" type="file" name="file" id="formFileMultiple" multiple required>
+                        <button type="submit" id="btn-submit" class="btn btn-primary">Upload & Proses</button>
+                    </div>
+                    <!-- <input type="file" name="file" multiple required> -->
+                </form>
+
+                <div class="mt-4 text-start">
+                    <div class="card">
+                        <div class="card-header bg-info text-light" style="position: relative;">
+                            <center><h3 class="m-1">{{ message }}</h3></center>
+                            {% if files %}
+                            <a href="{{ url_for('download_bundle') }}" class="btn btn-sm btn-primary" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">Download .ZIP</a>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            {% if message %}
+                                <ol>
+                                {% for file in files %}
+                                    <li>
+                                        <div class="row mb-2">
+                                            <div class="col-11">
+                                                <a class="text-dark" style="text-decoration: none;" href="{{ url_for('download', filename=file) }}">{{ file }}</a>
+                                            </div>
+                                            <div class="col-1">
+                                                <a class="btn btn-sm btn-primary" href="{{ url_for('download', filename=file) }}" title="Download"><i class="fas fa-download"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                                </ol>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div id="block-setting-approval">
+                    <h1 class="mb-5 mt-4" style="font-weight: 900;">SETTING APPROVAL</h1>
+                    <div class="card">
+                        <div class="card-header bg-info text-light"><h3 class="mb-0">SETTING</h3></div>
+                        <div class="card-body">
+                            <select name="tipe_setting" id="tipe_setting" class="form-control">
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Consumable">Consumable</option>
+                            </select>
+                            <div class="row mt-3 text-start">
+                                <div class="col-4" id="ttd1">
+                                    <form action="" method="post"></form>
+                                    <label id="lttd1" class="mb-2 fw-bold">Supervisor</label>
+                                    <div class="input-group mb-3"> 
+                                        <label class="input-group-text" for="approval1" id="lbl_approval1" style="cursor: pointer;">
+                                            <i class="fas fa-image"></i> 
+                                        </label> 
+                                        <input type="file" class="form-control visually-hidden" id="approval1" data-name-file="spv.png" accept="image/*" onchange="showFiles(this)"> 
+                                        <button class="btn btn-success" type="button" id="btn_approval1" onclick="chooseFile(this)">
+                                            Choose Files 
+                                        </button> 
+                                    </div>
+                                </div>
+                                <div class="col-4" id="ttd2">
+                                    <label id="lttd2" class="mb-2 fw-bold">Manager</label>
+                                    <div class="input-group mb-3"> 
+                                        <label class="input-group-text" for="approval2" id="lbl_approval2" style="cursor: pointer;">
+                                            <i class="fas fa-image"></i> 
+                                        </label> 
+                                        <input type="file" class="form-control visually-hidden" id="approval2" data-name-file="mng.png" accept="image/*" onchange="showFiles(this)"> 
+                                        <button class="btn btn-success" type="button" id="btn_approval2" onclick="chooseFile(this)">
+                                            Choose Files 
+                                        </button> 
+                                    </div>
+                                </div>
+                                <div class="col-4" id="ttd3">
+                                    <label id="lttd3" class="mb-2 fw-bold">Division 1</label>
+                                    <div class="input-group mb-3"> 
+                                        <label class="input-group-text" for="approval3" id="lbl_approval3" style="cursor: pointer;">
+                                            <i class="fas fa-image"></i> 
+                                        </label> 
+                                        <input type="file" class="form-control visually-hidden" id="approval3" data-name-file="div1.png" accept="image/*" onchange="showFiles(this)"> 
+                                        <button class="btn btn-success" type="button" id="btn_approval3" onclick="chooseFile(this)">
+                                            Choose Files 
+                                        </button> 
+                                    </div>
+                                </div>
+                                <div class="col-4" id="ttd4">
+                                    <label id="lttd4" class="mb-2 fw-bold">Division 2</label>
+                                    <div class="input-group mb-3"> 
+                                        <label class="input-group-text" for="approval4" id="lbl_approval4" style="cursor: pointer;">
+                                            <i class="fas fa-image"></i> 
+                                        </label> 
+                                        <input type="file" class="form-control visually-hidden" id="approval4" data-name-file="div2.png" accept="image/*" onchange="showFiles(this)"> 
+                                        <button class="btn btn-success" type="button" id="btn_approval4" onclick="chooseFile(this)">
+                                            Choose Files 
+                                        </button> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-sm btn-light" id="btn-open-setting" style="position: absolute; right: 0; top: 5rem;" onclick="open_setting(this)" data-open="open"><i id="icon-setting" class="fas fa-gear" style="font-size: 25pt;"></i></button>
+    <label style="position: absolute; bottom: 10px; left: 10px; font-weight: bold;">Create By : Abdul Malik Ibrahim</label>
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js" integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.min.js" integrity="sha512-LGHBR+kJ5jZSIzhhdfytPoEHzgaYuTRifq9g5l6ja6/k9NAOsAi5dQh4zQF6JIRB8cAYxTRedERUF+97/KuivQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $("#block-setting-approval").hide(500);
+    function open_setting(p) {
+        const open = p.dataset.open;
+        const block = $("#block-setting-approval");
+        $("#icon-setting").addClass("fa-spin");
+
+        if (open === "open") {
+            block.show().removeClass("slide-out").addClass("slide-in");
+            $("#btn-open-setting").attr("data-open", "hide");
+            setTimeout(() => {
+                $("#icon-setting").removeClass("fa-spin");
+            }, 500);
+
+        } else {
+            block.removeClass("slide-in").addClass("slide-out");
+            $("#btn-open-setting").attr("data-open", "open");
+            
+            // Setelah animasi selesai, sembunyikan block
+            setTimeout(() => {
+                block.hide();
+                $("#icon-setting").removeClass("fa-spin");
+            }, 500); // harus sama dengan durasi animasi
+        }
+    }
+
+    function check_tipe() {
+        if($("#tipe").find(":selected").val() == ""){
+            console.log("kosong")
+            $("#btn-submit").attr("disabled",true);
+        }else{
+            console.log("isi")
+            $("#btn-submit").attr("disabled",false);
+        }
+    }
+
+    check_tipe();
+
+    function showFiles(data) {
+        const id = data.id;
+        const filename = data.files[0]["name"];
+        const targetFilename = data.dataset.nameFile;
+        const tipe = $("#tipe_setting").find(":selected").val();
+        uploadTTD(id, targetFilename, tipe)
+        $("#btn_"+id).html(filename);
+    }
+
+    function chooseFile(data) {
+        const id = data.id;
+        const idFileInput = id.replaceAll("btn_","");
+        $("#"+idFileInput).trigger("click");
+    }
+
+    let value = 'Maintenance';
+    $("#tipe_setting").change(function(e) {
+        value = e.target.value;
+        if(value == "Maintenance"){
+            $("#ttd4").show();
+        }else{
+            $("#ttd4").hide();
+        }
+    })
+</script>
+<script>
+    function uploadTTD(inputId, targetFilename, tipe) {
+        const input = document.getElementById(inputId);
+        const file = input.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('target', targetFilename);
+        formData.append('tipe', tipe);
+
+        $.ajax({
+            url: "/upload-ttd",
+            method: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend:function(){
+                $("#btn_"+inputId).html("Uploading...");
+            },
+            success: function (res) {
+                swal.fire("Sukses",res.message,"success");
+                $("#"+inputId).val("");
+                $("#btn_"+inputId).html("Choose File");
+            },
+            error: function (xhr) {
+                swal.fire("Error",xhr.responseText,"error");
+                console.error(xhr.responseText);
+            }
+        });
+    }
+</script>

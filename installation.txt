@@ -1,0 +1,10 @@
+pip install pillow
+py -m pip install Pillow
+
+
+
+MENGHINDARI DOWNLOAD KEEP INSECURE
+buka di chrome
+chrome://settings/content/insecureContent
+
+di bagian Allowed to show insecure content add URL http://10.59.195.219:5000/
