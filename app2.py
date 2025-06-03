@@ -94,12 +94,27 @@ def index():
 
                 # Tambahkan tanda tangan ke setiap halaman
                 for i, page in enumerate(new_doc):
-                    coords = [
-                        (480, 720, 550, 800), #TTD 1
-                        (510, 680, 530, 730), #TTD KECIL
-                        (480, 460, 550, 540), #TTD MANAGER
-                        (480, 220, 550, 300), #TTD DIVISION
-                    ]
+                    # Ukuran lebar referensi (11.67 inchi dalam poin)
+                    reference_width = 842
+
+                    page_width = page.rect.width
+                    scale_ratio = page_width / reference_width
+
+                    print(filename,page_width,reference_width,scale_ratio)
+                    if(scale_ratio == 1):
+                        coords = [
+                            (480, 720, 550, 800), #TTD 1 (x1,y1,x2,y2)
+                            (510, 670, 530, 720), #TTD KECIL
+                            (480, 460, 550, 540), #TTD MANAGER
+                            (480, 220, 550, 300), #TTD DIVISION
+                        ]
+                    else:
+                        coords = [
+                            (480, 660, 550, 740), #TTD 1
+                            (510, 610, 530, 660), #TTD KECIL
+                            (480, 420, 550, 500), #TTD MANAGER
+                            (480, 160, 550, 240), #TTD DIVISION
+                        ]
                     for j, rect_coords in enumerate(coords):
                         if j < len(ttd_files):
                             rect = fitz.Rect(*rect_coords)
