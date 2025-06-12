@@ -1,8 +1,15 @@
-from flask import Flask, render_template, request, send_from_directory, send_file
+from flask import Flask, render_template, request, jsonify
+from flask import Response
 import fitz  # PyMuPDF
 import os
 from collections import defaultdict
-from flask import jsonify
+import threading
+import webview
+import time
+import tkinter as tk
+import requests
+import sys
+import shutil
 from PIL import Image
 import zipfile
 import pikepdf
@@ -10,16 +17,25 @@ import pandas as pd
 import win32com.client
 import json
 import pythoncom
+from pathlib import Path
+import subprocess
 
 app = Flask(__name__)
 
-input_folder = "pdfs"
-output_folder = "output_pdfs"
+if getattr(sys, 'frozen', False):
+    base_dir = os.path.dirname(sys.executable)
+else:
+    base_dir = os.path.abspath(".")
+
+input_folder = os.path.join(base_dir, "pdfs")
+output_folder = os.path.join(base_dir, "output_pdfs")
 output_vendor_code = "vendor_code_name_temp/vendor_code.txt"
 output_vendor_name = "vendor_code_name_temp/vendor_name.txt"
 
 os.makedirs(output_folder, exist_ok=True)
 os.makedirs(input_folder, exist_ok=True)
+print(input_folder)
+print(output_folder)
 os.makedirs('vendor_code_name_temp', exist_ok=True)
 os.makedirs('db_supplier', exist_ok=True)
 os.makedirs('static/cons', exist_ok=True)
@@ -114,7 +130,14 @@ def index():
 
         if missing:
             missing_str = ", ".join(missing)
-            return f"TTD {missing_str} belum di setting", 200
+            return f"""
+            <html>
+            <body style='font-family: sans-serif; text-align: center; margin-top: 100px;'>
+                <h2>TTD {missing_str} belum di-setting</h2>
+                <button onclick="window.history.back()">Kembali</button>
+            </body>
+            </html>
+            """, 200
         
         output_filenames = []
         vendor_names = set()
@@ -291,7 +314,6 @@ def send_email():
     mail.Send()
     return jsonify({"message":"Email berhasil dikirim"}), 200
 
-
 @app.route("/get_db_supplier")
 def get_db_supplier():
     # Ambil kolom A sampai D (tanpa peduli nama header)
@@ -323,6 +345,9 @@ def upload_db_supplier():
 
 @app.route("/download/<filename>")
 def download(filename):
+    user_download_dir = str(Path.home() / "Downloads")  # Folder Downloads user
+
+    # Bersihin folder input
     for filename_pdfs in os.listdir(input_folder):
         file_path = os.path.join(input_folder, filename_pdfs)
         try:
@@ -331,19 +356,92 @@ def download(filename):
         except Exception as e:
             print(f"Gagal menghapus {file_path}: {e}")
 
-    return send_from_directory(output_folder, filename)
+    # Pastikan file ada
+    file_to_send = os.path.join(output_folder, filename)
+    if os.path.exists(file_to_send):
+        # Copy ke Downloads
+        try:
+            target_path = os.path.join(user_download_dir, filename)
+            shutil.copyfile(file_to_send, target_path)
+
+            return jsonify({"message": "Berhasil menyalin file ke folder Downloads"}), 200
+        except Exception as e:
+            return jsonify({"message": f"Gagal menyalin file ke Downloads {e}"}), 500
+    else:
+        return jsonify({"message": f"File <b>{filename}</b> tidak ditemukan"}), 404
 
 @app.route("/download_bundle")
 def download_bundle():
-    zip_filename = "po_separate.zip"
-    # Membuat file zip
-    with zipfile.ZipFile(zip_filename, 'w') as zipf:
-        for filename in os.listdir(output_folder):
-            if filename.endswith('.pdf'):
-                filepath = os.path.join(output_folder, filename)
-                zipf.write(filepath, arcname=filename)  # arcname = nama dalam zip
-    print(f'Semua PDF dari folder "{output_folder}" telah dimasukkan ke dalam "{zip_filename}".')
-    return send_file(zip_filename, as_attachment=True)
+    # Tentuin base folder
+    if getattr(sys, 'frozen', False):
+        base_dir = os.path.dirname(sys.executable)  # Kalo udah dibuild jadi EXE
+    else:
+        base_dir = os.path.abspath(".")  # Kalo run dari Python script
+
+    output_folder = os.path.join(base_dir, "output_pdfs")  # Folder PDF kamu
+    zip_filename = os.path.join(base_dir, "po_separate.zip")
+    user_download_dir = str(Path.home() / "Downloads")
+    target_path = os.path.join(user_download_dir, "po_separate.zip")
+
+    # Bikin file ZIP
+    try:
+        with zipfile.ZipFile(zip_filename, 'w') as zipf:
+            for filename in os.listdir(output_folder):
+                if filename.endswith('.pdf'):
+                    filepath = os.path.join(output_folder, filename)
+                    zipf.write(filepath, arcname=filename)
+    except Exception as e:
+        return jsonify({"message": f"Gagal membuat ZIP: {e}"}), 500
+
+    # Copy ke folder Downloads
+    try:
+        shutil.copyfile(zip_filename, target_path)
+        subprocess.Popen(f'explorer "{user_download_dir}"')
+        if os.path.isfile(zip_filename):
+            os.remove(zip_filename)
+        return jsonify({"message": "ZIP <b>po_separate.zip</b> berhasil disalin ke folder Downloads"}), 200
+    except Exception as e:
+        return jsonify({"message": f"Gagal salin ke folder Downloads: {e}"}), 500
+
+@app.route("/download_list_db_supplier")
+def download_list_db_supplier():
+    # Tentuin base folder
+    base_dir = os.path.abspath(".")
+    source_path = os.path.join(base_dir, "db_supplier", "db_supplier.xlsx")
+
+    # Lokasi tujuan di folder Downloads
+    user_downloads = Path.home() / "Downloads"
+    target_path = user_downloads / "DB Supplier.xlsx"
+
+    if not os.path.exists(source_path):
+        return jsonify({"message": f"Database supplier kosong!"}), 404
+
+    try:
+        shutil.copyfile(source_path, target_path)
+        subprocess.Popen(f'explorer "{user_downloads}"')
+        return jsonify({"message": "Berhasil menyalin file ke folder Downloads"}), 200
+    except Exception as e:
+        return jsonify({"message": f"Gagal menyalin file ke Downloads {e}"}), 500
+
+@app.route("/download_template_supplier")
+def download_template_supplier():
+    # Tentuin base folder
+    base_dir = os.path.abspath(".")
+    source_path = os.path.join(base_dir, "static/templates", "database_supplier.xlsx")
+
+    # Lokasi tujuan di folder Downloads
+    user_downloads = Path.home() / "Downloads"
+    target_path = user_downloads / "Template Database Supplier.xlsx"
+
+    if not os.path.exists(source_path):
+        return jsonify({"message": f"File template tidak ada!"}), 404
+
+    try:
+        shutil.copyfile(source_path, target_path)
+        subprocess.Popen(f'explorer "{user_downloads}"')
+        return jsonify({"message": "Berhasil menyalin file ke folder Downloads"}), 200
+    except Exception as e:
+        return jsonify({"message": f"Gagal menyalin file ke Downloads {e}"}), 500
 
 @app.route('/upload-ttd', methods=['POST'])
 def upload_ttd():
@@ -379,8 +477,56 @@ def upload_ttd():
 
     return jsonify({"message": f"Gambar berhasil diupload"}), 200
 
+def start_flask():
+    app.run(port=5000, threaded=True)
+
+def show_splash():
+    splash = tk.Tk()
+    splash.title("Loading...")
+    splash.geometry("300x150")
+    splash.eval('tk::PlaceWindow . center')
+    label = tk.Label(splash, text="⏳ Loading App...\nMohon tunggu sebentar", font=("Arial", 12))
+    label.pack(expand=True)
+    splash.update()
+    return splash
+
+def wait_for_flask():
+    while True:
+        try:
+            requests.get("http://127.0.0.1:5000")
+            return
+        except:
+            time.sleep(0.5)
 
 if __name__ == "__main__":
-    app.run(debug=True) # For Development
-    # app.run(debug=False, host='127.0.0.1', port=5000)
-    # app.run(host='0.0.0.0', port=5000) # For Production
+    try:
+        splash = show_splash()
+
+        splash_start_time = time.time()
+
+        flask_thread = threading.Thread(target=start_flask)
+        flask_thread.daemon = True
+        flask_thread.start()
+
+        wait_for_flask()
+
+        elapsed = time.time() - splash_start_time
+        min_splash_duration = 3
+        if elapsed < min_splash_duration:
+            time.sleep(min_splash_duration - elapsed)
+
+        splash.destroy()
+
+        webview.create_window(
+            "PO Separate System",
+            "http://127.0.0.1:5000"
+        )
+        webview.start()
+
+    except Exception as e:
+        import traceback
+        with open("error_log.txt", "w") as f:
+            f.write(traceback.format_exc())
+        print("Terjadi error, cek file error_log.txt")
+    
+    # input("\nPress Enter to exit...")

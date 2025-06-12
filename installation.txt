@@ -4,9 +4,12 @@ py -m pip install pikepdf
 py -m pip install pandas openpyxl
 py -m pip install pywin32
 py -m pip install pyinstaller
+py -m pip install pywebview
+py -m pip install requests
+py -m pip install PyQt5
 
 to EXE
-pyinstaller --noconfirm --clean --console --add-data "templates;templates" --add-data "static;static" --add-data "vendor_code_name_temp;vendor_code_name_temp" app2.py
+pyinstaller --onefile --noconfirm --clean --noconsole --add-data "templates;templates" --add-data "static;static" app2.py
 
 
 

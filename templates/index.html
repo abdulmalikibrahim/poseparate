@@ -73,7 +73,7 @@
                         <div class="card-header bg-info text-light" style="position: relative;">
                             <center><h3 class="m-1">{{ message }}</h3></center>
                             {% if files %}
-                            <a href="{{ url_for('download_bundle') }}" class="btn btn-sm btn-primary" style="position: absolute; top: 50%; right: 125px; transform: translateY(-50%);">Download .ZIP</a>
+                            <a href="javascript:void(0)" onclick="download_bundle()" id="btn-download-bundle" class="btn btn-sm btn-primary" style="position: absolute; top: 50%; right: 125px; transform: translateY(-50%);">Download .ZIP</a>
                             <a href="javascript:void(0)" class="btn btn-sm btn-light" onclick="send_email_all()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">Send Email All</a>
                             {% endif %}
                         </div>
@@ -89,7 +89,7 @@
                                                 </a>
                                             </div>
                                             <div class="col-2 text-end">
-                                                <a class="btn btn-sm btn-primary" href="{{ url_for('download', filename=file) }}" title="Download"><i class="fas fa-download"></i></a>
+                                                <a href="javascript:void(0)" class="btn btn-sm btn-primary" id="btn-download-{{ vendor_code[loop.index0] }}" onclick="download_file(this)" data-id="{{ vendor_code[loop.index0] }}" data-file="{{ file }}" title="Download"><i class="fas fa-download"></i></a>
 
                                                 <a class="btn btn-sm btn-info send_email" href="javascript:void(0)" data-file="{{ file }}" data-vendor="{{ vendor_code[loop.index0] }}" id="btn-send-email-{{ vendor_code[loop.index0] }}" onclick="sendEmail(this)" title="Send Email"><i class="fas fa-envelope text-light"></i></a>
                                             </div>
@@ -117,10 +117,10 @@
                                     <input class="form-control" type="file" name="file" id="fileDBSupplier" except=".xlsx" required>
                                     <button type="submit" class="btn btn-primary" id="btn-upload-db-supplier" onclick="uploadDatabaseSupplier()">Upload</button>
                                 </div>
-                                <p style="font-size:10pt;">Download template upload <a href="{{ url_for('static', filename='templates/database_supplier.xlsx') }}" target="_blank">disini</a></p>
+                                <p style="font-size:10pt;">Download template upload <a href="javascript:void(0)" id="btn-download-template-supplier" onclick="download_template_supplier()">disini</a></p>
                             </div>
                             <div class="col-lg-3 text-end">
-                                <a href="" class="btn btn-sm btn-success">Download List</a>
+                                <a href="javascript:void(0)" class="btn btn-sm btn-success" id="btn-download-db-supplier" onclick="download_list_db_supplier()">Download List</a>
                             </div>
                         </div>
                         <table class="table table-sm table-bordered table-hover mt-3" style="font-size: 8pt;" id="table-supplier">
@@ -423,6 +423,89 @@
                 $("#btn-send-email-"+vendor_code).html("<i class='fas fa-envelope text-light'></i>");
                 xhr.responseJSON ? swal.fire("Error",xhr.responseJSON.message,"error") : swal.fire("Error","Maaf ada kesalahan tak terduga","error")
             },
+        });
+    }
+
+    function download_file(data) {
+        const filename = data.dataset.file
+        const id = data.dataset.id
+        $.ajax({
+            url: "/download/"+filename,
+            dataType:"JSON",
+            beforeSend:function(){
+                $("#btn-download-"+id).html('<i class="fas fa-spinner fa-spin"></i>');
+            },
+            success: function (res) {
+                swal.fire("Sukses","Berhasil menyalin file ke folder Download","success");
+            },
+            error: function (xhr) {
+                const message = xhr.responseJSON ? xhr.responseJSON.message : "Maaf ada kesalahan tak terduga"
+                swal.fire("Error",message,"error");
+                console.error(xhr.responseText);
+            },
+            complete: function() {
+                $("#btn-download-"+id).html('<i class="fas fa-download"></i>');
+            }
+        });
+    }
+
+    function download_bundle() {
+        $.ajax({
+            url: "/download_bundle",
+            dataType:"JSON",
+            beforeSend:function(){
+                $("#download_bundle").html('<i class="fas fa-spinner fa-spin"></i> Downloading...');
+            },
+            success: function (res) {
+                swal.fire("Sukses","Berhasil menyalin file ZIP ke folder Download","success");
+            },
+            error: function (xhr) {
+                const message = xhr.responseJSON ? xhr.responseJSON.message : "Maaf ada kesalahan tak terduga"
+                swal.fire("Error",message,"error");
+                console.error(xhr.responseText);
+            },
+            complete: function() {
+                $("#download_bundle").html('Download .ZIP');
+            }
+        });
+    }
+
+    function download_list_db_supplier() {
+        $.ajax({
+            url: "/download_list_db_supplier",
+            dataType:"JSON",
+            beforeSend:function(){
+                $("#btn-download-db-supplier").html('<i class="fas fa-spinner fa-spin"></i> Downloading...');
+            },
+            success: function (res) {
+                swal.fire("Sukses","Berhasil menyalin ke folder Download","success");
+            },
+            error: function (xhr) {
+                const message = xhr.responseJSON ? xhr.responseJSON.message : "Maaf ada kesalahan tak terduga"
+                swal.fire("Error",message,"error");
+                console.error(xhr.responseText);
+            },
+            complete: function() {
+                $("#btn-download-db-supplier").html('Download List');
+            }
+        });
+    }
+
+    function download_template_supplier() {
+        $.ajax({
+            url: "/download_template_supplier",
+            dataType:"JSON",
+            success: function (res) {
+                swal.fire("Sukses","Berhasil menyalin ke folder Download","success");
+            },
+            error: function (xhr) {
+                const message = xhr.responseJSON ? xhr.responseJSON.message : "Maaf ada kesalahan tak terduga"
+                swal.fire("Error",message,"error");
+                console.error(xhr.responseText);
+            },
+            complete: function() {
+                $("#btn-download-template-supplier").html('disini');
+            }
         });
     }
 
