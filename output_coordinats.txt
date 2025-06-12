@@ -1,0 +1,187 @@
+
+=== Halaman 1 ===
+Text: '____________________________________________________________________________________________________' | Posisi: x0=212.4, y0=71.5, x1=224.4, y1=791.5
+Text: 'Item' | Posisi: x0=228.7, y0=772.1, x1=238.7, y1=791.5
+Text: 'Material' | Posisi: x0=228.7, y0=713.0, x1=238.7, y1=748.3
+Text: 'Desc.' | Posisi: x0=228.7, y0=621.9, x1=238.7, y1=647.5
+Text: 'Order Qty.' | Posisi: x0=228.7, y0=529.2, x1=238.7, y1=575.5
+Text: 'Unit' | Posisi: x0=228.7, y0=485.8, x1=238.7, y1=503.5
+Text: 'Price per Unit' | Posisi: x0=228.7, y0=359.8, x1=238.7, y1=420.2
+Text: 'Net Value' | Posisi: x0=228.7, y0=205.1, x1=238.7, y1=248.7
+Text: 'Ref.Number' | Posisi: x0=228.7, y0=103.9, x1=238.7, y1=157.9
+Text: '____________________________________________________________________________________________________' | Posisi: x0=226.8, y0=71.5, x1=238.8, y1=791.5
+Text: '00010' | Posisi: x0=243.1, y0=763.9, x1=253.1, y1=791.5
+Text: '5000134940' | Posisi: x0=243.1, y0=693.1, x1=253.1, y1=748.3
+Text: '3.010' | Posisi: x0=243.1, y0=517.0, x1=253.1, y1=541.9
+Text: 'Piece' | Posisi: x0=243.1, y0=478.6, x1=253.1, y1=503.5
+Text: '9.800' | Posisi: x0=243.1, y0=359.9, x1=253.1, y1=384.8
+Text: '29.498.000' | Posisi: x0=243.1, y0=205.4, x1=253.1, y1=255.1
+Text: 'WARRANTY&QUICK GUIDE SIGRA PP300824 BIRU' | Posisi: x0=255.1, y0=408.0, x1=265.1, y1=647.5
+Text: '1.610' | Posisi: x0=265.3, y0=725.8, x1=275.3, y1=750.7
+Text: 'Piece' | Posisi: x0=265.3, y0=629.8, x1=275.3, y1=654.7
+Text: 'Still to be delivered' | Posisi: x0=265.3, y0=330.5, x1=275.3, y1=414.3
+Text: '00020' | Posisi: x0=277.3, y0=763.9, x1=287.3, y1=791.5
+Text: '5000132561' | Posisi: x0=277.3, y0=693.1, x1=287.3, y1=748.3
+Text: '280' | Posisi: x0=277.3, y0=519.7, x1=287.3, y1=536.2
+Text: 'Piece' | Posisi: x0=277.3, y0=478.6, x1=287.3, y1=503.5
+Text: '8.900' | Posisi: x0=277.3, y0=359.9, x1=287.3, y1=384.8
+Text: '2.492.000' | Posisi: x0=277.3, y0=205.3, x1=287.3, y1=249.4
+Text: 'QUICK GUIDE ROCKY QG550421I MARK MERAH' | Posisi: x0=289.3, y0=419.1, x1=299.3, y1=647.5
+Text: '140' | Posisi: x0=299.5, y0=728.5, x1=309.5, y1=745.0
+Text: 'Piece' | Posisi: x0=299.5, y0=629.8, x1=309.5, y1=654.7
+Text: 'Still to be delivered' | Posisi: x0=299.5, y0=330.5, x1=309.5, y1=414.3
+Text: '00030' | Posisi: x0=311.5, y0=763.9, x1=321.5, y1=791.5
+Text: '5000132560' | Posisi: x0=311.5, y0=693.1, x1=321.5, y1=748.3
+Text: '910' | Posisi: x0=311.5, y0=519.7, x1=321.5, y1=536.2
+Text: 'Piece' | Posisi: x0=311.5, y0=478.6, x1=321.5, y1=503.5
+Text: '6.700' | Posisi: x0=311.5, y0=359.8, x1=321.5, y1=384.7
+Text: '6.097.000' | Posisi: x0=311.5, y0=205.4, x1=321.5, y1=249.6
+Text: 'QUICK GUIDE AYLA QG74A0323I MARK HIJAU' | Posisi: x0=323.5, y0=429.6, x1=333.5, y1=647.5
+Text: '350' | Posisi: x0=333.7, y0=728.6, x1=343.7, y1=745.2
+Text: 'Piece' | Posisi: x0=333.7, y0=629.8, x1=343.7, y1=654.7
+Text: 'Still to be delivered' | Posisi: x0=333.7, y0=330.4, x1=343.7, y1=414.2
+Text: '00040' | Posisi: x0=345.7, y0=763.9, x1=355.7, y1=791.5
+Text: '5000132558' | Posisi: x0=345.7, y0=693.1, x1=355.7, y1=748.3
+Text: '280' | Posisi: x0=345.7, y0=519.8, x1=355.7, y1=536.4
+Text: 'Piece' | Posisi: x0=345.7, y0=478.6, x1=355.7, y1=503.5
+Text: '12.500' | Posisi: x0=345.7, y0=359.8, x1=355.7, y1=390.2
+Text: '3.500.000' | Posisi: x0=345.7, y0=205.4, x1=355.7, y1=249.6
+Text: 'WARRANTY SVC BOOK ROCKY WSB550421I MERAH' | Posisi: x0=357.7, y0=396.6, x1=367.7, y1=647.5
+Text: '140' | Posisi: x0=367.9, y0=728.6, x1=377.9, y1=745.2
+Text: 'Piece' | Posisi: x0=367.9, y0=629.8, x1=377.9, y1=654.7
+Text: 'Still to be delivered' | Posisi: x0=367.9, y0=330.4, x1=377.9, y1=414.2
+Text: '00050' | Posisi: x0=379.9, y0=763.9, x1=389.9, y1=791.5
+Text: '5000132557' | Posisi: x0=379.9, y0=693.1, x1=389.9, y1=748.3
+Text: '910' | Posisi: x0=379.9, y0=519.8, x1=389.9, y1=536.4
+Text: 'Piece' | Posisi: x0=379.9, y0=478.6, x1=389.9, y1=503.5
+Text: '12.500' | Posisi: x0=379.9, y0=359.8, x1=389.9, y1=390.2
+Text: '11.375.000' | Posisi: x0=379.9, y0=205.4, x1=389.9, y1=255.1
+Text: 'WARRANTY SVC BOOK AYLA WSB740323 HIJAU' | Posisi: x0=391.9, y0=416.6, x1=401.9, y1=647.5
+Text: '350' | Posisi: x0=402.1, y0=728.5, x1=412.1, y1=745.0
+Text: 'Piece' | Posisi: x0=402.1, y0=629.8, x1=412.1, y1=654.7
+Text: 'Still to be delivered' | Posisi: x0=402.1, y0=330.5, x1=412.1, y1=414.3
+Text: '00060' | Posisi: x0=414.1, y0=763.9, x1=424.1, y1=791.5
+Text: '5000132539' | Posisi: x0=414.1, y0=693.1, x1=424.1, y1=748.3
+Text: '490' | Posisi: x0=414.1, y0=519.7, x1=424.1, y1=536.2
+Text: 'Piece' | Posisi: x0=414.1, y0=478.6, x1=424.1, y1=503.5
+Text: '12.500' | Posisi: x0=414.1, y0=359.9, x1=424.1, y1=390.3
+Text: '6.125.000' | Posisi: x0=414.1, y0=205.3, x1=424.1, y1=249.4
+Text: 'WARRANTY SVC BOOK XENIA WSB261121I PUTIH' | Posisi: x0=426.1, y0=408.0, x1=436.1, y1=647.5
+Text: '280' | Posisi: x0=436.3, y0=728.5, x1=446.3, y1=745.0
+Text: 'Piece' | Posisi: x0=436.3, y0=629.8, x1=446.3, y1=654.7
+Text: 'Still to be delivered' | Posisi: x0=436.3, y0=330.5, x1=446.3, y1=414.3
+Text: 'KREATUMIN SAPTA MANUNGGAL' | Posisi: x0=38.5, y0=627.6, x1=48.5, y1=791.5
+Text: 'Jl. Kepu Dalam IV No.171 Kemayoran' | Posisi: x0=48.7, y0=623.3, x1=58.7, y1=791.5
+Text: 'Jakarta Pusat,' | Posisi: x0=58.9, y0=727.5, x1=68.9, y1=791.5
+Text: '10620' | Posisi: x0=69.1, y0=763.9, x1=79.1, y1=791.5
+Text: 'Sales person:' | Posisi: x0=89.5, y0=726.2, x1=99.5, y1=791.5
+Text: 'Hendra G. Tumin' | Posisi: x0=89.5, y0=646.6, x1=99.5, y1=726.2
+Text: 'Fax Number :' | Posisi: x0=99.7, y0=724.9, x1=109.7, y1=791.5
+Text: 'Please deliver to:' | Posisi: x0=140.5, y0=709.6, x1=150.5, y1=791.5
+Text: 'P.T. Astra Daihatsu Motor -Stamp & Assy' | Posisi: x0=150.7, y0=607.8, x1=160.7, y1=791.5
+Text: 'Kawasan Surya Cipta, Karawang' | Posisi: x0=160.9, y0=646.0, x1=170.9, y1=791.5
+Text: 'Jawa Barat - 17111' | Posisi: x0=171.1, y0=702.4, x1=181.1, y1=791.5
+Text: 'Storage Location: D102 - Factory Supply' | Posisi: x0=211.9, y0=609.1, x1=221.9, y1=791.5
+Text: 'Currency' | Posisi: x0=211.9, y0=169.0, x1=221.9, y1=212.7
+Text: ':' | Posisi: x0=211.9, y0=149.0, x1=221.9, y1=152.4
+Text: 'IDR' | Posisi: x0=211.9, y0=126.3, x1=221.9, y1=149.0
+Text: 'Delivery date:' | Posisi: x0=140.5, y0=323.0, x1=150.5, y1=388.3
+Text: 'Day 01.05.2025' | Posisi: x0=140.5, y0=247.5, x1=150.5, y1=323.0
+Text: 'Reference' | Posisi: x0=150.7, y0=340.1, x1=160.7, y1=388.3
+Text: ':' | Posisi: x0=150.7, y0=325.7, x1=160.7, y1=329.0
+Text: '____________________________________________________________________________________________________' | Posisi: x0=470.4, y0=71.5, x1=482.4, y1=791.5
+Text: 'Jangka waktu pembayaran 30 hari setelah faktur & kuitansi diterima bagian keuangan' | Posisi: x0=484.9, y0=407.2, x1=494.9, y1=791.5
+Text: '____________________________________________________________________________________________________' | Posisi: x0=483.0, y0=71.5, x1=495.0, y1=791.5
+Text: '------------------' | Posisi: x0=529.9, y0=723.9, x1=539.9, y1=784.3
+Text: '------------------' | Posisi: x0=529.9, y0=479.1, x1=539.9, y1=539.5
+Text: '------------------' | Posisi: x0=529.9, y0=227.1, x1=539.9, y1=287.5
+Text: 'FERRY ANINDITO' | Posisi: x0=541.9, y0=700.2, x1=551.9, y1=784.3
+Text: 'TONNY PURNAJAYA' | Posisi: x0=541.9, y0=442.2, x1=551.9, y1=539.5
+Text: 'BAYU RANU' | Posisi: x0=541.9, y0=229.5, x1=551.9, y1=287.5
+Text: '<Created By>' | Posisi: x0=553.9, y0=723.3, x1=563.9, y1=784.3
+Text: '<Approved By>' | Posisi: x0=553.9, y0=471.4, x1=563.9, y1=539.5
+Text: '<Approved By>' | Posisi: x0=553.9, y0=219.3, x1=563.9, y1=287.5
+Text: 'Page 1 of' | Posisi: x0=16.3, y0=88.7, x1=26.3, y1=132.9
+Text: '2' | Posisi: x0=16.3, y0=71.8, x1=26.3, y1=77.4
+Text: 'Purchase order' | Posisi: x0=37.2, y0=285.4, x1=51.2, y1=388.3
+Text: 'Purchase order/date' | Posisi: x0=52.6, y0=315.5, x1=60.6, y1=388.3
+Text: '4100123360 / 28.04.2025' | Posisi: x0=61.3, y0=275.1, x1=71.3, y1=388.3
+Text: 'Contact person/Telephone' | Posisi: x0=73.6, y0=293.7, x1=81.6, y1=388.3
+Text: 'EDI MURTOPO 26201' | Posisi: x0=82.3, y0=287.5, x1=92.3, y1=388.3
+Text: 'Your vendor number with us' | Posisi: x0=118.0, y0=691.2, x1=126.0, y1=791.5
+Text: '3004132' | Posisi: x0=126.7, y0=752.8, x1=136.7, y1=791.5
+
+=== Halaman 2 ===
+Text: '____________________________________________________________________________________________________' | Posisi: x0=212.4, y0=71.5, x1=224.4, y1=791.5
+Text: 'Item' | Posisi: x0=228.7, y0=772.1, x1=238.7, y1=791.5
+Text: 'Material' | Posisi: x0=228.7, y0=713.0, x1=238.7, y1=748.3
+Text: 'Desc.' | Posisi: x0=228.7, y0=621.9, x1=238.7, y1=647.5
+Text: 'Order Qty.' | Posisi: x0=228.7, y0=529.2, x1=238.7, y1=575.5
+Text: 'Unit' | Posisi: x0=228.7, y0=485.8, x1=238.7, y1=503.5
+Text: 'Price per Unit' | Posisi: x0=228.7, y0=359.8, x1=238.7, y1=420.2
+Text: 'Net Value' | Posisi: x0=228.7, y0=205.1, x1=238.7, y1=248.7
+Text: 'Ref.Number' | Posisi: x0=228.7, y0=103.9, x1=238.7, y1=157.9
+Text: '____________________________________________________________________________________________________' | Posisi: x0=226.8, y0=71.5, x1=238.8, y1=791.5
+Text: '00070' | Posisi: x0=243.1, y0=763.9, x1=253.1, y1=791.5
+Text: '5000132553' | Posisi: x0=243.1, y0=693.1, x1=253.1, y1=748.3
+Text: '490' | Posisi: x0=243.1, y0=519.8, x1=253.1, y1=536.4
+Text: 'Piece' | Posisi: x0=243.1, y0=478.6, x1=253.1, y1=503.5
+Text: '8.900' | Posisi: x0=243.1, y0=359.8, x1=253.1, y1=384.7
+Text: '4.361.000' | Posisi: x0=243.1, y0=205.4, x1=253.1, y1=249.6
+Text: 'QUICK GUIDE XENIA QG261121I MARK PUTIH' | Posisi: x0=255.1, y0=430.3, x1=265.1, y1=647.5
+Text: '280' | Posisi: x0=265.3, y0=728.6, x1=275.3, y1=745.2
+Text: 'Piece' | Posisi: x0=265.3, y0=629.8, x1=275.3, y1=654.7
+Text: 'Still to be delivered' | Posisi: x0=265.3, y0=330.4, x1=275.3, y1=414.2
+Text: 'Final Total Price' | Posisi: x0=277.3, y0=676.4, x1=287.3, y1=748.3
+Text: 'IDR' | Posisi: x0=277.3, y0=555.5, x1=287.3, y1=572.6
+Text: '63.448.000' | Posisi: x0=277.3, y0=208.3, x1=287.3, y1=258.0
+Text: 'Total Other DPP' | Posisi: x0=289.3, y0=675.0, x1=299.3, y1=748.3
+Text: 'IDR' | Posisi: x0=289.3, y0=555.6, x1=299.3, y1=572.7
+Text: '61.698.000' | Posisi: x0=289.3, y0=208.1, x1=299.3, y1=257.8
+Text: 'PPn %' | Posisi: x0=301.3, y0=717.9, x1=311.3, y1=748.3
+Text: '12 %' | Posisi: x0=301.3, y0=527.5, x1=311.3, y1=550.3
+Text: '6.979.280' | Posisi: x0=301.3, y0=208.1, x1=311.3, y1=252.3
+Text: 'Total Price after PPn' | Posisi: x0=313.3, y0=650.8, x1=323.3, y1=748.3
+Text: 'IDR' | Posisi: x0=313.3, y0=555.6, x1=323.3, y1=572.7
+Text: '70.427.280' | Posisi: x0=313.3, y0=208.3, x1=323.3, y1=258.0
+Text: '____________________________________________________________________________________________________' | Posisi: x0=311.4, y0=71.5, x1=323.4, y1=791.5
+Text: 'KREATUMIN SAPTA MANUNGGAL' | Posisi: x0=38.5, y0=627.6, x1=48.5, y1=791.5
+Text: 'Jl. Kepu Dalam IV No.171 Kemayoran' | Posisi: x0=48.7, y0=623.3, x1=58.7, y1=791.5
+Text: 'Jakarta Pusat,' | Posisi: x0=58.9, y0=727.5, x1=68.9, y1=791.5
+Text: '10620' | Posisi: x0=69.1, y0=763.9, x1=79.1, y1=791.5
+Text: 'Sales person:' | Posisi: x0=89.5, y0=726.3, x1=99.5, y1=791.5
+Text: 'Hendra G. Tumin' | Posisi: x0=89.5, y0=646.6, x1=99.5, y1=726.3
+Text: 'Fax Number :' | Posisi: x0=99.7, y0=724.9, x1=109.7, y1=791.5
+Text: 'Please deliver to:' | Posisi: x0=140.5, y0=709.6, x1=150.5, y1=791.5
+Text: 'P.T. Astra Daihatsu Motor -Stamp & Assy' | Posisi: x0=150.7, y0=607.8, x1=160.7, y1=791.5
+Text: 'Kawasan Surya Cipta, Karawang' | Posisi: x0=160.9, y0=646.0, x1=170.9, y1=791.5
+Text: 'Jawa Barat - 17111' | Posisi: x0=171.1, y0=702.4, x1=181.1, y1=791.5
+Text: 'Storage Location: D102 - Factory Supply' | Posisi: x0=211.9, y0=609.1, x1=221.9, y1=791.5
+Text: 'Currency' | Posisi: x0=211.9, y0=169.0, x1=221.9, y1=212.7
+Text: ':' | Posisi: x0=211.9, y0=149.0, x1=221.9, y1=152.4
+Text: 'IDR' | Posisi: x0=211.9, y0=126.3, x1=221.9, y1=149.0
+Text: 'Delivery date:' | Posisi: x0=140.5, y0=323.0, x1=150.5, y1=388.3
+Text: 'Day 01.05.2025' | Posisi: x0=140.5, y0=247.5, x1=150.5, y1=323.0
+Text: 'Reference' | Posisi: x0=150.7, y0=340.1, x1=160.7, y1=388.3
+Text: ':' | Posisi: x0=150.7, y0=325.7, x1=160.7, y1=329.0
+Text: '____________________________________________________________________________________________________' | Posisi: x0=470.4, y0=71.5, x1=482.4, y1=791.5
+Text: 'Jangka waktu pembayaran 30 hari setelah faktur & kuitansi diterima bagian keuangan' | Posisi: x0=484.9, y0=407.2, x1=494.9, y1=791.5
+Text: '____________________________________________________________________________________________________' | Posisi: x0=483.0, y0=71.5, x1=495.0, y1=791.5
+Text: '------------------' | Posisi: x0=529.9, y0=723.9, x1=539.9, y1=784.3
+Text: '------------------' | Posisi: x0=529.9, y0=479.1, x1=539.9, y1=539.5
+Text: '------------------' | Posisi: x0=529.9, y0=227.1, x1=539.9, y1=287.5
+Text: 'FERRY ANINDITO' | Posisi: x0=541.9, y0=700.2, x1=551.9, y1=784.3
+Text: 'TONNY PURNAJAYA' | Posisi: x0=541.9, y0=442.2, x1=551.9, y1=539.5
+Text: 'BAYU RANU' | Posisi: x0=541.9, y0=229.5, x1=551.9, y1=287.5
+Text: '<Created By>' | Posisi: x0=553.9, y0=723.3, x1=563.9, y1=784.3
+Text: '<Approved By>' | Posisi: x0=553.9, y0=471.4, x1=563.9, y1=539.5
+Text: '<Approved By>' | Posisi: x0=553.9, y0=219.3, x1=563.9, y1=287.5
+Text: 'Page 2 of' | Posisi: x0=16.3, y0=88.7, x1=26.3, y1=132.9
+Text: '2' | Posisi: x0=16.3, y0=71.8, x1=26.3, y1=77.4
+Text: 'Purchase order' | Posisi: x0=37.2, y0=285.4, x1=51.2, y1=388.3
+Text: 'Purchase order/date' | Posisi: x0=52.6, y0=315.5, x1=60.6, y1=388.3
+Text: '4100123360 / 28.04.2025' | Posisi: x0=61.3, y0=275.1, x1=71.3, y1=388.3
+Text: 'Contact person/Telephone' | Posisi: x0=73.6, y0=293.7, x1=81.6, y1=388.3
+Text: 'EDI MURTOPO 26201' | Posisi: x0=82.3, y0=287.5, x1=92.3, y1=388.3
+Text: 'Your vendor number with us' | Posisi: x0=118.0, y0=691.2, x1=126.0, y1=791.5
+Text: '3004132' | Posisi: x0=126.7, y0=752.8, x1=136.7, y1=791.5

@@ -1,0 +1,469 @@
+<!doctype html>
+<html>
+<head>
+    <title>APPROVAL ONLINE PO</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='image/logo_icon_daihatsu.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.css" integrity="sha512-fjO3Vy3QodX9c6G9AUmr6WuIaEPdGRxBjD7gjatG5gGylzYyrEq3U0q+smkG6CwIY0L8XALRFHh4KPHig0Q1ug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        #block-setting-approval {
+            position: relative; /* pastikan elemen bisa digeser */
+            display: none; /* default: hidden */
+            width: 100%; /* atur sesuai kebutuhan */
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s forwards;
+        }
+
+        .slide-out {
+            animation: slideOut 0.5s forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0%);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0%);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-info" style="background-image: url({{ url_for('static', filename='image/background.jpg') }}); background-size: auto; background-repeat: no-repeat; background-blend-mode: lighten;">
+    <div class="text-center mt-3">
+        <div class="row w-100 text-start ps-5">
+            <div class="col-12 mb-3">
+                <img src="{{ url_for('static', filename='image/logo_daihatsu.png') }}" style="width: 20%;">
+            </div>
+            <div class="col text-start">
+                <h1 class="mb-4 mt-2" style="font-weight: 900;">APPROVAL ONLINE PO</h1>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="text-start mb-2">
+                        <p class="mb-1">Tipe</p>
+                        <select name="tipe" id="tipe" class="form-control" onchange="check_tipe()">
+                            <option value="" selected>Pilih Tipe</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Consumable">Consumable</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <input class="form-control" type="file" name="file" id="formFileMultiple" multiple required>
+                        <button type="submit" id="btn-submit" class="btn btn-primary">Upload & Proses</button>
+                    </div>
+                    <!-- <input type="file" name="file" multiple required> -->
+                </form>
+    
+                <div class="mt-4 text-start">
+                    <div class="card">
+                        <div class="card-header bg-info text-light" style="position: relative;">
+                            <center><h3 class="m-1">{{ message }}</h3></center>
+                            {% if files %}
+                            <a href="{{ url_for('download_bundle') }}" class="btn btn-sm btn-primary" style="position: absolute; top: 50%; right: 125px; transform: translateY(-50%);">Download .ZIP</a>
+                            <a href="javascript:void(0)" class="btn btn-sm btn-light" onclick="send_email_all()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">Send Email All</a>
+                            {% endif %}
+                        </div>
+                        <div class="card-body p-2 pt-3">
+                            {% if message %}
+                                <ol class="ps-4 mb-0">
+                                {% for file in files %}
+                                    <li>
+                                        <div class="row mb-2">
+                                            <div class="col-10">
+                                                <a class="text-dark" style="text-decoration: none;" href="{{ url_for('download', filename=file) }}">
+                                                    {{ file }}
+                                                </a>
+                                            </div>
+                                            <div class="col-2 text-end">
+                                                <a class="btn btn-sm btn-primary" href="{{ url_for('download', filename=file) }}" title="Download"><i class="fas fa-download"></i></a>
+
+                                                <a class="btn btn-sm btn-info send_email" href="javascript:void(0)" data-file="{{ file }}" data-vendor="{{ vendor_code[loop.index0] }}" id="btn-send-email-{{ vendor_code[loop.index0] }}" onclick="sendEmail(this)" title="Send Email"><i class="fas fa-envelope text-light"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                                </ol>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col" id="div-db-supplier">
+                <h1 class="mb-5 mt-2" style="font-weight: 900;">DATABASE SUPPLIER</h1>
+                <div class="card">
+                    <div class="card-header bg-info text-light pe-2">
+                        <div class="row">
+                            <h3 class="mb-0">LIST DATA</h3>
+                        </div>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <input class="form-control" type="file" name="file" id="fileDBSupplier" except=".xlsx" required>
+                                    <button type="submit" class="btn btn-primary" id="btn-upload-db-supplier" onclick="uploadDatabaseSupplier()">Upload</button>
+                                </div>
+                                <p style="font-size:10pt;">Download template upload <a href="{{ url_for('static', filename='templates/database_supplier.xlsx') }}" target="_blank">disini</a></p>
+                            </div>
+                            <div class="col-lg-3 text-end">
+                                <a href="" class="btn btn-sm btn-success">Download List</a>
+                            </div>
+                        </div>
+                        <table class="table table-sm table-bordered table-hover mt-3" style="font-size: 8pt;" id="table-supplier">
+                            <thead class="thead thead-light text-center">
+                                <tr>
+                                    <th class="align-middle">Code</th>
+                                    <th class="align-middle">Name</th>
+                                    <th class="align-middle">Email</th>
+                                    <th class="align-middle">CC</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body-list-supplier">
+
+                            </tbody>
+                        </table>
+                        <template id="row-template">
+                            <tr>
+                                <td class="align-middle text-center">{vendor_code}</td>
+                                <td class="align-middle">{vendor_name}</td>
+                                <td class="align-middle">{email}</td>
+                                <td class="align-middle">{cc}</td>
+                            </tr>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <div class="col" id="block-setting-approval">
+                <h1 class="mb-5 mt-2" style="font-weight: 900;">SETTING APPROVAL</h1>
+                <div class="card">
+                    <div class="card-header bg-info text-light"><h3 class="mb-0">SETTING</h3></div>
+                    <div class="card-body">
+                        <select name="tipe_setting" id="tipe_setting" class="form-control">
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Consumable">Consumable</option>
+                        </select>
+                        <div class="row mt-3 text-start">
+                            <div class="col-4" id="ttd1">
+                                <form action="" method="post"></form>
+                                <label id="lttd1" class="mb-2 fw-bold">Supervisor</label>
+                                <div class="input-group mb-3"> 
+                                    <label class="input-group-text" for="approval1" id="lbl_approval1" style="cursor: pointer;">
+                                        <i class="fas fa-image"></i> 
+                                    </label> 
+                                    <input type="file" class="form-control visually-hidden" id="approval1" data-name-file="spv.png" accept="image/*" onchange="showFiles(this)"> 
+                                    <button class="btn btn-success" type="button" id="btn_approval1" onclick="chooseFile(this)">
+                                        Choose Files 
+                                    </button> 
+                                </div>
+                            </div>
+                            <div class="col-4" id="ttd2">
+                                <label id="lttd2" class="mb-2 fw-bold">Manager</label>
+                                <div class="input-group mb-3"> 
+                                    <label class="input-group-text" for="approval2" id="lbl_approval2" style="cursor: pointer;">
+                                        <i class="fas fa-image"></i> 
+                                    </label> 
+                                    <input type="file" class="form-control visually-hidden" id="approval2" data-name-file="mng.png" accept="image/*" onchange="showFiles(this)"> 
+                                    <button class="btn btn-success" type="button" id="btn_approval2" onclick="chooseFile(this)">
+                                        Choose Files 
+                                    </button> 
+                                </div>
+                            </div>
+                            <div class="col-4" id="ttd3">
+                                <label id="lttd3" class="mb-2 fw-bold">Division 1</label>
+                                <div class="input-group mb-3"> 
+                                    <label class="input-group-text" for="approval3" id="lbl_approval3" style="cursor: pointer;">
+                                        <i class="fas fa-image"></i> 
+                                    </label> 
+                                    <input type="file" class="form-control visually-hidden" id="approval3" data-name-file="div1.png" accept="image/*" onchange="showFiles(this)"> 
+                                    <button class="btn btn-success" type="button" id="btn_approval3" onclick="chooseFile(this)">
+                                        Choose Files 
+                                    </button> 
+                                </div>
+                            </div>
+                            <div class="col-4" id="ttd4">
+                                <label id="lttd4" class="mb-2 fw-bold">Division 2</label>
+                                <div class="input-group mb-3"> 
+                                    <label class="input-group-text" for="approval4" id="lbl_approval4" style="cursor: pointer;">
+                                        <i class="fas fa-image"></i> 
+                                    </label> 
+                                    <input type="file" class="form-control visually-hidden" id="approval4" data-name-file="div2.png" accept="image/*" onchange="showFiles(this)"> 
+                                    <button class="btn btn-success" type="button" id="btn_approval4" onclick="chooseFile(this)">
+                                        Choose Files 
+                                    </button> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-sm btn-light" id="btn-open-setting" style="position: absolute; right: 0; top: 5rem;" onclick="open_setting(this)" data-open="open"><i id="icon-setting" class="fas fa-gear" style="font-size: 25pt;"></i></button>
+    <label style="position: absolute; bottom: 10px; left: 10px; font-weight: bold;">Create By : Abdul Malik Ibrahim</label>
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js" integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.min.js" integrity="sha512-LGHBR+kJ5jZSIzhhdfytPoEHzgaYuTRifq9g5l6ja6/k9NAOsAi5dQh4zQF6JIRB8cAYxTRedERUF+97/KuivQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $("#block-setting-approval").hide(500);
+    function open_setting(p) {
+        const open = p.dataset.open;
+        const block = $("#block-setting-approval");
+        $("#icon-setting").addClass("fa-spin");
+
+        if (open === "open") {
+            block.show().removeClass("slide-out").addClass("slide-in");
+            $("#btn-open-setting").attr("data-open", "hide");
+            setTimeout(() => {
+                $("#icon-setting").removeClass("fa-spin");
+            }, 500);
+
+        } else {
+            block.removeClass("slide-in").addClass("slide-out");
+            $("#btn-open-setting").attr("data-open", "open");
+            
+            // Setelah animasi selesai, sembunyikan block
+            setTimeout(() => {
+                block.hide();
+                $("#icon-setting").removeClass("fa-spin");
+            }, 500); // harus sama dengan durasi animasi
+        }
+    }
+
+    function check_tipe() {
+        if($("#tipe").find(":selected").val() == ""){
+            $("#btn-submit").attr("disabled",true);
+        }else{
+            console.log("isi")
+            $("#btn-submit").attr("disabled",false);
+        }
+    }
+
+    check_tipe();
+
+    function showFiles(data) {
+        const id = data.id;
+        const filename = data.files[0]["name"];
+        const targetFilename = data.dataset.nameFile;
+        const tipe = $("#tipe_setting").find(":selected").val();
+        uploadTTD(id, targetFilename, tipe)
+        $("#btn_"+id).html(filename);
+    }
+
+    function chooseFile(data) {
+        const id = data.id;
+        const idFileInput = id.replaceAll("btn_","");
+        $("#"+idFileInput).trigger("click");
+    }
+
+    let value = 'Maintenance';
+    $("#tipe_setting").change(function(e) {
+        value = e.target.value;
+        if(value == "Maintenance"){
+            $("#ttd4").show();
+        }else{
+            $("#ttd4").hide();
+        }
+    })
+</script>
+<script>
+    $("#btn-submit").click(function() {
+        localStorage.removeItem("listAlreadyEmail")
+    });
+
+    function send_email_all() {
+        const buttons = $(".send_email").toArray(); // jadiin array biasa
+        const delay = 1000; // jeda antar klik (ms)
+
+        function klikBerurutan(i = 0) {
+            if (i >= buttons.length) return;
+
+            console.log("Klik tombol ke-", i + 1);
+            $(buttons[i]).click();
+
+            // tunggu delay, baru klik berikutnya
+            setTimeout(function () {
+                klikBerurutan(i + 1);
+            }, delay);
+        }
+
+        klikBerurutan(); // mulai dari index 0
+    }
+
+    function uploadTTD(inputId, targetFilename, tipe) {
+        const input = document.getElementById(inputId);
+        const file = input.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('target', targetFilename);
+        formData.append('tipe', tipe);
+
+        $.ajax({
+            url: "/upload-ttd",
+            method: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend:function(){
+                $("#btn_"+inputId).html("Uploading...");
+            },
+            success: function (res) {
+                swal.fire("Sukses",res.message,"success");
+                $("#"+inputId).val("");
+                $("#btn_"+inputId).html("Choose File");
+            },
+            error: function (xhr) {
+                swal.fire("Error",xhr.responseText,"error");
+                console.error(xhr.responseText);
+            }
+        });
+    }
+    
+    function uploadDatabaseSupplier() {
+        const input = document.getElementById("fileDBSupplier");
+        const file = input.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        $.ajax({
+            url: "/upload_db_supplier",
+            method: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend:function(){
+                $("#btn-upload-db-supplier").html("Uploading...");
+            },
+            success: function (res) {
+                getDBSupplier();
+                swal.fire("Sukses",res.message,"success");
+                $("#fileDBSupplier").val("");
+            },
+            error: function (xhr) {
+                const message = xhr.responseJSON ? xhr.responseJSON.message : "Maaf ada kesalahan tak terduga"
+                swal.fire("Error",message,"error");
+                console.error(xhr.responseText);
+            },
+            complete: function() {
+                $("#btn-upload-db-supplier").html("Upload");
+            }
+        });
+    }
+    
+    function sendEmail(data) {
+        const dataSupplier = localStorage.getItem("dataSupplier")
+        if(!dataSupplier){
+            swal.fire("Error","Data supplier masih kosong","error");
+            return;
+        }
+
+        const list_already_email = localStorage.getItem("listAlreadyEmail") ? JSON.parse(localStorage.getItem("listAlreadyEmail")) : [];
+        const vendor_code = data.dataset.vendor;
+        const file = data.dataset.file;
+        const fileSplit = data.dataset.file.split(" ");
+        const dataSupplierArray = JSON.parse(dataSupplier)
+
+        //CHECK APAKAH VENDOR ADA DI DATABASE
+        const detailVendor = dataSupplierArray[vendor_code]
+        
+        if(detailVendor === undefined || !detailVendor){
+            swal.fire("Error","Supplier tidak ditemukan di database","error");
+            return;
+        }
+
+        const email = detailVendor["email"];
+        const vendor_name = detailVendor["vendor_name"];
+        const cc = detailVendor["cc"];
+        console.log(email,vendor_name,cc);
+
+        $.ajax({
+            type:"POST",
+            url: "/send-email",
+            contentType: "application/json",
+            data: JSON.stringify({
+                email: email,
+                vendor_name: vendor_name,
+                cc:cc,
+                title:file.replace(".pdf",""),
+                file:file,
+                nomor_po:fileSplit[0],
+            }),
+            processData: false,
+            dataType:"JSON",
+            beforeSend:function(){
+                $("#btn-send-email-"+vendor_code).html("<i class='fas fa-spinner fa-spin text-light'></i>");
+            },
+            success: function (res) {
+                if (!list_already_email.includes(vendor_code)) {
+                   list_already_email.push(vendor_code);
+                }
+                localStorage.setItem("listAlreadyEmail",JSON.stringify(list_already_email))
+                $("#btn-send-email-"+vendor_code).html("<i class='fas fa-check-circle text-light'></i>");
+            },
+            error: function (xhr) {
+                $("#btn-send-email-"+vendor_code).html("<i class='fas fa-envelope text-light'></i>");
+                xhr.responseJSON ? swal.fire("Error",xhr.responseJSON.message,"error") : swal.fire("Error","Maaf ada kesalahan tak terduga","error")
+            },
+        });
+    }
+
+    function getDBSupplier() {
+        $.ajax({
+            url: "/get_db_supplier",
+            contentType: false,
+            processData: false,
+            dataType:"JSON",
+            beforeSend:function(){
+                $("#body-list-supplier").html("<tr><td colspan='4' class='text-center'><i class='fas fa-spinner fa-spin'></i> Memuat Data...</td></tr>");
+            },
+            success: function (res) {
+                data = JSON.parse(JSON.stringify(res))
+                localStorage.setItem('dataSupplier',JSON.stringify(data))
+                $("#body-list-supplier").html("")
+                const template_row = $("#row-template").html()
+                for (let key in data) {
+                    let row = template_row
+                        .replaceAll("{vendor_code}", key)
+                        .replaceAll("{vendor_name}", data[key]["vendor_name"])
+                        .replaceAll("{email}", data[key]["email"].replaceAll(/[;,]/g,"<br>"))
+                        .replaceAll("{cc}", data[key]["cc"])
+
+                    $("#body-list-supplier").append(row)
+                    console.log(key, data[key])
+                }
+            },
+            error: function (xhr) {
+                $("#body-list-supplier").html("<tr><td colspan='4' class='text-danger'>Error : "+xhr.responseText+"</td></tr>");
+            }
+        });
+    }
+
+    function check_send_email() {
+        const list_already_email = localStorage.getItem("listAlreadyEmail") ? JSON.parse(localStorage.getItem("listAlreadyEmail")) : [];
+        for (let key in list_already_email ) {
+            const vendor_code = list_already_email[key];
+            $("#btn-send-email-"+vendor_code).html("<i class='fas fa-check-circle text-light'></i>");
+        }
+    }
+    check_send_email();
+    getDBSupplier();
+</script>

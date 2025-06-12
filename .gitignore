@@ -1,0 +1,8 @@
+/build/*
+/dist/*
+app2.spec
+/static/cons/*
+/static/mtn/*
+/outputs_pdfs/*
+/pdfs/*
+/vendor_code_name_temp/*
