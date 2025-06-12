@@ -3,9 +3,10 @@ py -m pip install Pillow
 py -m pip install pikepdf
 py -m pip install pandas openpyxl
 py -m pip install pywin32
+py -m pip install pyinstaller
 
 to EXE
-pyinstaller --onefile --hidden-import=win32com.client --hidden-import=pandas._libs.tslibs.base --add-data "output_pdfs:output_pdfs" --add-data "pdfs:pdfs" --add-data "db_supplier:db_supplier" --add-data "static:static" --add-data "templates:templates" --add-data "vendor_code_name_temp:vendor_code_name_temp" app2.py
+pyinstaller --noconfirm --clean --console --add-data "templates;templates" --add-data "static;static" --add-data "vendor_code_name_temp;vendor_code_name_temp" app2.py
 
 
 
